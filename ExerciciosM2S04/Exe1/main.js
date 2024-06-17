@@ -76,7 +76,12 @@ function showVisibleImages() {
         cardEpisodio.addEventListener('click', () => {
             console.log(`Você clicou no episódio ${ep.episodio}`)
         })
-        listaEp.appendChild(cardEpisodio);
+        listaEp.appendChild(cardEpisodio)
+
+               
+        if (i === startIndex + 2) {
+             cardEpisodio.id = 'terceira-imagem'
+        }
     }
 }
 
