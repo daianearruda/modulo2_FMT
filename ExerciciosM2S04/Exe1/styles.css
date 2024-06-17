@@ -19,7 +19,6 @@
 
 .container2{
     margin: auto;
-    max-width:1512px ;
     display: flex;
     flex-direction: column;
 }
@@ -44,16 +43,15 @@ header {
 }
 
 .itemsCentral {
-    padding: 4em;
+    padding: 2em;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
 .infos {
     width: 694px;
     height: 411px;
-    
 }
 
 .infos h3 {
@@ -107,7 +105,7 @@ header {
 }
 
 .episodios div img{
-    max-width: 15em;
+    max-width: 14em;
     border-radius: 8px;
     position: relative;
 }
@@ -148,3 +146,52 @@ header {
     padding: 1em;
     font-size: 14px;
 }
+
+@media (max-width: 1415px) {
+    .poster{
+        max-width: 20em;
+        max-height: 30em;
+    }
+
+    .episodios div img{
+        max-width: 12em;
+    }
+
+}
+
+@media (max-width: 1043px) {
+
+    .itemsCentral{
+        display: block;
+        align-items: center;
+        justify-content: center;
+    }
+    .poster{
+       display: none;
+    }
+
+    .episodios div img{
+        max-width: 18em;
+    }
+
+    .social ul{
+        width: 100%; 
+        display: flex;
+        align-items: center; 
+        justify-content:space-around; 
+        padding:5em 15em;
+    }
+
+    .social ul li img{
+        height: 2em;
+    }
+
+    .footer{
+        padding: 0;
+        margin: 0;
+        justify-content: center; 
+        text-align: center;
+    }
+
+}
+
