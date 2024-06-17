@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgba(100, 100, 100, 0.438);
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    margin: 5em auto;
+    background-color: rgb(255, 255, 255);
+    padding: 1em;
+
+}
+
+.row{
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+}
+
+button{
+    width: 90px;
+    margin-top: 10px;
+}
