@@ -11,10 +11,24 @@
 .container {
     min-height: 100vh;
     background-image: url('./imgs/poster.png');
-    background-color: #000000BF;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;   
+    position: relative;
+    z-index: 0;
+}
+
+.container::after{
+    position: absolute;
+    background-color: #000000BF;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    content: '';
+    opacity: 0.01;
+    pointer-events: none;
+    z-index: -1;
 }
 
 .container2{
@@ -112,6 +126,7 @@ header {
 
 #terceira-imagem{
     position: relative;
+    z-index: 2;
 }
 
 #terceira-imagem::after {
@@ -123,7 +138,8 @@ header {
     height: 88%;
     border-radius: 8px; 
     background: linear-gradient(to right, transparent 50%, rgb(238, 195, 138) 100%, rgb(255, 255, 255) 100%);
-    pointer-events: none; 
+    pointer-events: none;
+    z-index: 3;
   }
 
 .episodios div span{
@@ -133,6 +149,7 @@ header {
 .poster {
     width: 392px;
     height: 580px;
+    position: relative;
 }
 
 .social li{
