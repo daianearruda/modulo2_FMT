@@ -1,101 +1,112 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetchNoticiaPrincipal();
-    carregarTarefasDoLocalStorage();
-});
 
-const fetchNoticiaPrincipal = async () => {
-    const tituloPrincipal = document.getElementById('noticia');
-    try {
-        const resposta = await fetch('https://servicodados.ibge.gov.br/api/v3/noticias/?tipo=release');
-        const data = await resposta.json();
-        const noticiaPrincipal = data.items[0];
-
-        if (noticiaPrincipal) {
-            tituloPrincipal.textContent = noticiaPrincipal.titulo;
-        }
-    } catch (error) {
-        console.error('Erro ao buscar as notícias:', error);
-    }
-};
-
-const adicionaTarefa = () => {
-    const inputTarefa = document.getElementById('inputTarefa');
-    const listaTarefas = document.getElementById('listaTarefa');
-    const aparecerTitulo = document.getElementById('contTitulos');
-
-    if (inputTarefa.value !== '') {
-        const novatarefa = document.createElement('li');
-        novatarefa.id = 'tarefaAdicionada';
-        novatarefa.textContent = inputTarefa.value;
-        listaTarefas.appendChild(novatarefa);
-        inputTarefa.value = '';
+const inputTarefa = document.getElementById('inputTarefa')
+const listaTarefa = document.getElementById('listaTarefa')
+const titulosLista = document.getElementById('contTitulos')
 
 
-        if (listaTarefas.children.length > 0) {
-            aparecerTitulo.style.display = 'flex';
+function recuperaLista() {
+   
+    listaTarefa.innerHTML = ''
+
+ 
+    const listaStorage = localStorage.getItem('tarefas')
+
+    if (listaStorage) {
+
+        const tarefas = JSON.parse(listaStorage)
+
+     
+        tarefas.forEach(tarefa => {
+            const novaTarefa = document.createElement('li')
+            novaTarefa.textContent = tarefa
+            novaTarefa.id = 'tarefaAdicionada'
+            listaTarefa.appendChild(novaTarefa)
+        })
+
+        if (tarefas.length > 0) {
+            titulosLista.style.display = 'flex'
         } else {
-            aparecerTitulo.style.display = 'none';
+            titulosLista.style.display = 'none'
+        }
+    } else {
+        titulosLista.style.display = 'none'
+    }
+}
+
+
+const adicionarTarefa = () => {
+   
+    const novaTarefaTexto = inputTarefa.value
+
+
+    if (novaTarefaTexto !== '') {
+        const novaTarefa = document.createElement('li')
+        novaTarefa.textContent = novaTarefaTexto
+        novaTarefa.id = 'tarefaAdicionada'
+        listaTarefa.appendChild(novaTarefa)
+
+
+        inputTarefa.value = ''
+
+        titulosLista.style.display = 'flex'
+
+        let tarefas
+
+        if (localStorage.getItem('tarefas') === null) {
+            tarefas = []
+        } else {
+            tarefas = JSON.parse(localStorage.getItem('tarefas'))
         }
 
-        salvarTarefa(novatarefa.textContent);
-    }
-};
+    
+        tarefas.push(novaTarefaTexto);
 
-const botaoAdicionarTarefas = document.getElementById('botaoAdicionar');
-botaoAdicionarTarefas.addEventListener('click', adicionaTarefa);
+    
+        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    }
+
+   
+    recuperaLista()
+}
+
 
 const limparTarefas = () => {
-    const listaTarefas = document.getElementById('listaTarefa');
-    const aparecerTitulo = document.getElementById('contTitulos');
-    listaTarefas.innerHTML = '';
-    localStorage.removeItem('meus-interesses');
 
-    if (listaTarefas.children.length === 0) {
-        aparecerTitulo.style.display = 'none';
+    listaTarefa.innerHTML = ''
+
+    localStorage.removeItem('tarefas')
+
+  
+    titulosLista.style.display = 'none'
+}
+
+const fetchNoticiaPrincipal = async () => {
+    const tituloPrincipal = document.getElementById('noticia')
+    try {
+        const resposta = await fetch('https://servicodados.ibge.gov.br/api/v3/noticias/?tipo=release')
+        const data = await resposta.json()
+        const noticiaPrincipal = data.items[0]
+
+        if (noticiaPrincipal) {
+            tituloPrincipal.textContent = noticiaPrincipal.titulo
+        }
+    } catch (error) {
+        console.error('Erro ao buscar as notícias:', error)
     }
-};
+}
 
-const limpaTarefa = document.getElementById('limpar');
-limpaTarefa.addEventListener('click', limparTarefas);
 
-const salvarTarefa = (tarefa) => {
-    let tarefas;
-    if (localStorage.getItem('meus-interesses') === null) {
-        tarefas = [];
-    } else {
-        tarefas = JSON.parse(localStorage.getItem('meus-interesses'));
-    }
+const botaoAdicionar = document.getElementById('botaoAdicionar')
+botaoAdicionar.addEventListener('click', adicionarTarefa)
 
-    tarefas.push(tarefa);
-    localStorage.setItem('meus-interesses', JSON.stringify(tarefas));
-};
 
-const carregarTarefasDoLocalStorage = () => {
-    const listaTarefas = document.getElementById('listaTarefa');
-    const aparecerTitulo = document.getElementById('contTitulos');
+const limpaTarefa = document.getElementById('limpar')
+limpaTarefa.addEventListener('click', limparTarefas)
 
-    let tarefas;
-    if (localStorage.getItem('meus-interesses') === null) {
-        tarefas = [];
-    } else {
-        tarefas = JSON.parse(localStorage.getItem('meus-interesses'));
-    }
 
-    listaTarefas.innerHTML = '';
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNoticiaPrincipal()
+    recuperaLista()  
+})
 
-    tarefas.forEach((tarefaTexto) => {
-        const novaTarefa = document.createElement('li');
-        novaTarefa.textContent = tarefaTexto;
-        novaTarefa.id = 'tarefaAdicionada';
-        listaTarefas.appendChild(novaTarefa);
-    });
-
-    if (tarefas.length > 0) {
-        aparecerTitulo.style.display = 'flex';
-    } else {
-        aparecerTitulo.style.display = 'none';
-    }
-};
-
-setInterval(carregarTarefasDoLocalStorage, 1000)
-
+setInterval(recuperaLista,1000)
