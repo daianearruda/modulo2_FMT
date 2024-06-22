@@ -1,13 +1,23 @@
-const adicionaTarefa =()=>{
-const inputTarefa = document.getElementById('inputTarefa')
-const listaTarefas = document.getElementById('listaTarefa')
-const aparecerTitulo= document.getElementById('contTitulos')
-    if(inputTarefa.value !== ''){
+const adicionaTarefa = () => {
+    const inputTarefa = document.getElementById('inputTarefa')
+    const listaTarefas = document.getElementById('listaTarefa')
+    const aparecerTitulo = document.getElementById('contTitulos')
+
+    if (inputTarefa.value !== '') {
         const novatarefa = document.createElement('li')
-        novatarefa.id=('tarefaAdicionada')
-        novatarefa.textContent= inputTarefa.value
+        novatarefa.id= ('tarefaAdicionada')
+        novatarefa.textContent = inputTarefa.value
         listaTarefas.appendChild(novatarefa)
-        inputTarefa.value=''
+        inputTarefa.value = ''
+
+        novatarefa.addEventListener('click', () => {
+            if (novatarefa.style.textDecorationLine === 'line-through') {
+                novatarefa.style.textDecorationLine = 'none'
+            } else {
+                novatarefa.style.textDecorationLine = 'line-through'
+            }
+        })
+
         if (listaTarefas.children.length > 0) {
             aparecerTitulo.style.display = 'flex'
         } else {
@@ -17,63 +27,64 @@ const aparecerTitulo= document.getElementById('contTitulos')
         salvarTarefa(novatarefa.textContent)
     }
 }
+
 const botaoAdicionarTarefas = document.getElementById('botaoAdicionar')
 botaoAdicionarTarefas.addEventListener('click', adicionaTarefa)
 
-const limparTarefas=()=>{
+const limparTarefas = () => {
     const listaTarefas = document.getElementById('listaTarefa')
-    const aparecerTitulo= document.getElementById('contTitulos')
-    document.getElementById('listaTarefa').innerHTML=''
+    const aparecerTitulo = document.getElementById('contTitulos')
+    listaTarefas.innerHTML = ''
+    localStorage.removeItem('meus-interesses')
 
-    localStorage.removeItem('tarefas')
-    
     if (listaTarefas.children.length === 0) {
         aparecerTitulo.style.display = 'none'
     }
-    
-}
+};
 
 const limpaTarefa = document.getElementById('limpar')
 limpaTarefa.addEventListener('click', limparTarefas)
 
-const salvarTarefa =(tarefa)=>{
-    let tarefas
-    if(localStorage.getItem('tarefas') === null){
-        tarefas=[]
-    }else{
-        tarefas=JSON.parse(localStorage.getItem('tarefas'))
+const salvarTarefa = (tarefa) => {
+    let tarefas;
+    if (localStorage.getItem('meus-interesses') === null) {
+        tarefas = []
+    } else {
+        tarefas = JSON.parse(localStorage.getItem('meus-interesses'))
     }
 
     tarefas.push(tarefa)
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
-
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    carregarTarefasDoLocalStorage()
-})
+    localStorage.setItem('meus-interesses', JSON.stringify(tarefas))
+};
 
 const carregarTarefasDoLocalStorage = () => {
-    let tarefas
-    if (localStorage.getItem('tarefas') === null) {
+    const listaTarefas = document.getElementById('listaTarefa')
+    const aparecerTitulo = document.getElementById('contTitulos')
+
+    let tarefas;
+    if (localStorage.getItem('meus-interesses') === null) {
         tarefas = []
     } else {
-        tarefas = JSON.parse(localStorage.getItem('tarefas'))
+        tarefas = JSON.parse(localStorage.getItem('meus-interesses'))
     }
+
+    listaTarefas.innerHTML = ''
 
     tarefas.forEach((tarefaTexto) => {
         const novaTarefa = document.createElement('li')
-        novaTarefa.id=('tarefaAdicionada')
         novaTarefa.textContent = tarefaTexto
-        document.getElementById('listaTarefa').appendChild(novaTarefa)
+        novaTarefa.id= ('tarefaAdicionada')
+        listaTarefas.appendChild(novaTarefa)
+
     })
 
-    const aparecerTitulo = document.getElementById('contTitulos')
     if (tarefas.length > 0) {
         aparecerTitulo.style.display = 'flex'
     } else {
         aparecerTitulo.style.display = 'none'
     }
-    
-}
+};
 
+document.addEventListener('DOMContentLoaded', carregarTarefasDoLocalStorage)
+
+setInterval(carregarTarefasDoLocalStorage, 1000)
