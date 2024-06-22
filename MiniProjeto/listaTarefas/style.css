@@ -24,6 +24,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 0 2em;
+    position: relative;
 }
 
 .header {
@@ -105,3 +106,22 @@ img {
     height: 20em; 
 }
 
+#noticias{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: rgb(127, 183, 216);
+    border-radius: 8px;
+    margin: 1em;
+    cursor: pointer;
+}
+
+#noticias h2{
+    color: #000000;
+}
+
+#noticia{
+    padding-top: 0.5em;
+    color: #423e37e1;
+}
