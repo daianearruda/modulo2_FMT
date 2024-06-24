@@ -126,3 +126,7 @@ img {
     padding-top: 0.5em;
     color: #423e37e1;
 }
+
+.tarefa-riscada {
+    text-decoration: line-through;
+}
