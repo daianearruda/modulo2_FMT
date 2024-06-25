@@ -3,7 +3,7 @@ const listaTarefa = document.getElementById('listaTarefa')
 const titulosLista = document.getElementById('contTitulos')
 
 function recuperaLista() {
-    const listaStorage = localStorage.getItem('tarefas')
+    const listaStorage = localStorage.getItem('meus-interesses')
 
     if (listaStorage) {
         const tarefas = JSON.parse(listaStorage)
@@ -55,14 +55,14 @@ const adicionarTarefa = () => {
 
         let tarefas
 
-        if (localStorage.getItem('tarefas') === null) {
+        if (localStorage.getItem('meus-interesses') === null) {
             tarefas = []
         } else {
-            tarefas = JSON.parse(localStorage.getItem('tarefas'))
+            tarefas = JSON.parse(localStorage.getItem('meus-interesses'))
         }
 
         tarefas.push({ texto: novaTarefaTexto, riscada: false })
-        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+        localStorage.setItem('meus-interesses', JSON.stringify(tarefas))
 
         titulosLista.style.display = 'flex'
     }
@@ -72,7 +72,7 @@ const adicionarTarefa = () => {
 
 const limparTarefas = () => {
     listaTarefa.innerHTML = ''
-    localStorage.removeItem('tarefas')
+    localStorage.removeItem('meus-interesses')
     titulosLista.style.display = 'none'
 }
 
@@ -83,7 +83,7 @@ const atualizaLocalStorage = () => {
             riscada: li.classList.contains('tarefa-riscada')
         }
     })
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    localStorage.setItem('meus-interesses', JSON.stringify(tarefas))
 }
 
 const fetchNoticiaPrincipal = async () => {
